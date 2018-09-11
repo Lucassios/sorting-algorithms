@@ -1,80 +1,48 @@
 package com.lucasmarques.sortingalgorithms;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class QuickSort {
 
-    public static <T extends Comparable<T>> T[] sort(T[] input) {
+    public static <T extends Comparable<T>> List<T> sort(List<T> input) {
 
-        if (input == null || input.length == 0) {
+        if (input == null || input.size() == 0) {
             return input;
         }
 
         T pivot = getPivot(input);
-        int leftCounter = 0;
-        int rightCounter = input.length - 1;
 
-        while (leftCounter <= rightCounter) {
+        List<T> pivotList = new LinkedList<>();
+        List<T> lessThanPivotList = new LinkedList<>();
+        List<T> greaterThanPivotList = new LinkedList<>();
 
-            // the value is in its correct order
-            while (input[leftCounter].compareTo(pivot) <= 0) {
-                leftCounter++;
+        for (T value : input) {
+            if (value.compareTo(pivot) < 0) {
+                lessThanPivotList.add(value);
+            } else if (value.compareTo(pivot) > 0) {
+                greaterThanPivotList.add(value);
+            } else {
+                pivotList.add(value);
             }
-
-            // the value is in its correct order
-            while (input[rightCounter].compareTo(pivot) > 0) {
-                rightCounter--;
-            }
-
-            if (leftCounter <= rightCounter) {
-                swap(input, leftCounter, rightCounter);
-                leftCounter++;
-                rightCounter--;
-            }
-
         }
 
-        return result;
+        lessThanPivotList = sort(lessThanPivotList);
+        greaterThanPivotList = sort(greaterThanPivotList);
+
+        return concatenateList(pivotList, lessThanPivotList, greaterThanPivotList);
 
     }
 
-    private static <T extends Comparable<T>> void swap(T[] input, int left, int right) {
-        T aux = input[left];
-        input[left] = input[right];
-        input[right] = aux;
+    private static <T extends Comparable<T>> List<T> concatenateList(List<T> pivotList, List<T> lessThanPivotList,
+                                                                     List<T> greaterThanPivotList) {
+        lessThanPivotList.addAll(pivotList);
+        lessThanPivotList.addAll(greaterThanPivotList);
+        return lessThanPivotList;
     }
 
-    private static <T extends Comparable<T>> T getPivot(T[] input) {
-        return input[input.length / 2];
-    }
-
-    private static class Pivot {
-
-        private int value;
-        private int position;
-
-        public Pivot(int value, int position) {
-            this.value = value;
-            this.position = position;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        public void setPosition(int position) {
-            this.position = position;
-        }
+    private static <T extends Comparable<T>> T getPivot(List<T> input) {
+        return input.get(input.size() / 2);
     }
 
 

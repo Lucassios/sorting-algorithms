@@ -11,7 +11,7 @@ public class InsertionSort {
             for (int i = indexPivot - 1; i >= 0; i--) {
 
                 T value = input[i];
-                Integer compareResult = value.compareTo(pivot);
+                int compareResult = value.compareTo(pivot);
                 if (compareResult > 0) {
                     swap(input, indexPivot, i);
                     indexPivot = i;

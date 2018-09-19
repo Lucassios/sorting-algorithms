@@ -4,33 +4,27 @@ public class BubbleSort {
 
     public static <T extends Comparable<T>> void sort(T[] input) {
 
-        int beginIndex = 0;
         int endIndex = input.length - 1;
-
-        sort(input, beginIndex, endIndex);
+        sort(input, endIndex);
 
     }
 
-    private static <T extends Comparable<T>> void sort(T[] input, int beginIndex, int endIndex) {
+    private static <T extends Comparable<T>> void sort(T[] input, int endIndex) {
 
-        while (beginIndex < endIndex) {
+        for (int currentIndex = 0; currentIndex < endIndex; currentIndex++) {
 
-            int leftIndex = beginIndex;
-            int rightIndex = beginIndex + 1;
+            int nextIndex = currentIndex + 1;
+            T currentValue = input[currentIndex];
+            T nextValue = input[nextIndex];
 
-            T leftValue = input[leftIndex];
-            T rightValue = input[rightIndex];
-
-            if (leftValue.compareTo(rightValue) > 0) {
-                swap(input, leftIndex, rightIndex);
+            if (currentValue.compareTo(nextValue) > 0) {
+                swap(input, currentIndex, nextIndex);
             }
-
-            beginIndex++;
 
         }
 
         if (--endIndex > 0) {
-            sort(input, 0, endIndex);
+            sort(input, endIndex);
         }
 
     }
